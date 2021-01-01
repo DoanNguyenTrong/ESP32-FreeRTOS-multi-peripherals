@@ -1,0 +1,21 @@
+[submodule "lib/DHT-sensor"]
+	path = lib/DHT-sensor
+	url = https://github.com/adafruit/DHT-sensor-library.git
+[submodule "lib/LCD"]
+	path = lib/LCD
+	url = https://github.com/arduino-libraries/LiquidCrystal.git
+[submodule "lib/MQTT"]
+	path = lib/MQTT
+	url = https://github.com/knolleary/pubsubclient.git
+[submodule "lib/RFID"]
+	path = lib/RFID
+	url = https://github.com/miguelbalboa/rfid.git
+[submodule "lib/Servo"]
+	path = lib/Servo
+	url = https://github.com/jkb-git/ESP32Servo.git
+[submodule "lib/Stepper"]
+	path = lib/Stepper
+	url = https://github.com/pkerspe/ESP-FlexyStepper.git
+[submodule "lib/Adafruit-sensor"]
+	path = lib/Adafruit-sensor
+	url = https://github.com/adafruit/Adafruit_Sensor.git
