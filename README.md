@@ -20,7 +20,6 @@ Install MQTT, RFID, Servo, Stepper, LCD, DHT sensor libraries using `git submodu
 git submodule add -f https://github.com/adafruit/DHT-sensor-library.git lib/DHT-sensor
 ## Dependency of DHT-sensor
 git submodule add -f  https://github.com/adafruit/Adafruit_Sensor.git lib/Adafruit-sensor
-## After this step, you need to copy Adafruit_Sensor.h and Adafruit_Sensor.cpp to DHT-sensor/
 
 git submodule add -f https://github.com/arduino-libraries/LiquidCrystal.git lib/LCD
 
@@ -33,7 +32,7 @@ git submodule add -f https://github.com/jkb-git/ESP32Servo.git lib/Servo
 git submodule add -f https://github.com/pkerspe/ESP-FlexyStepper.git lib/Stepper
 ```
 
-Later, if you want to use the most up-to-date version of these submodules, run the below commands
+Later, if you want to use the most up-to-date version of these submodules or in case you clone from my github, run the below commands
 ```bash
 git submodule init
 # update your submodule --remote fetches new commits in the submodules
@@ -42,4 +41,5 @@ git submodule update --remote
 ```
 
 Also, you need to modify `monitor_port` and `upload_port` in the platformio.ini file to make sure they point to the actual port that the ESP32 is connected.
+
 
