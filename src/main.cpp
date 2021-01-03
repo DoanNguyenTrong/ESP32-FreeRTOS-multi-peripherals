@@ -11,33 +11,73 @@
 #include <DHT.h>              // DHT sensor
 #include <LiquidCrystal.h>    // LCD
 
+
+
+#include <atomic>
+#include <thread>
+#include <mutex>
+
 // User custom code
 #include "MQTTclient.h"
 #include "MultiTasks.h"
 
 
 void setup_wifi();
-void anotherTask( void *parameter);
+void servoThread( void *parameter);
+void callback(char * , byte *, unsigned int );
 
-// LED Pin
-const int ledPin = 13;
+// 1 channel Relay
+const int SS_Pin   = 15;
+
+// Servo motor
+const int servoPin = 13;  // Servo
+
+// Step motor
+const int stepPin1 = 12;  // Stepper INT1
+const int stepPin2 = 14;  // Stepper INT2
+const int stepPin3 = 27;  // Stepper INT3
+const int stepPin4 = 26;  // Stepper INT4
+
+// LCD: The ESP32 has two I2C channels
+const int lcdSDA   = 21;  // LCD SDA
+const int lcdSCL   = 22;  // LCD SCL
+
+// Motion sensor
+const int motionPin= 32;  // PIR motion sensor
+const int dhtPin   = 35;  // DHT temp + rh pin
+// RFRID
+const int RST_Pin  = 34;  // RFID Reset pin
+const int SS_Pin   = 39;  // RFID Slave select pin
+
+// Keypad 4x4
+// https://diyi0t.com/keypad-arduino-esp8266-esp32/
+const byte ROWS = 4; //four rows
+const byte COLS = 4; //four columns
+byte rowPins[ROWS] = {16, 4, 0, 2}; 
+byte colPins[COLS] = {19, 18, 5, 17};
+
 
 const char * ssid = "fddb6a";
 const char * password = "bride.018.unity";
-
 const char* mqtt_server = "192.168.0.6";
+
 
 long lastMsg = 0;
 char msg[50];
 int value = 0;
 
+// Initiate all objects
+
 MQTTclient mqtt;
+
 
 void setup()
 {
   Serial.begin(112500);
   pinMode(ledPin, OUTPUT);
-  xTaskCreate( anotherTask,  "another Task", 10000, NULL,1,NULL); /* Task handle to keep track of created task */
+
+
+  xTaskCreate( servoThread,  "another Task", 10000, NULL,1,NULL); /* Task handle to keep track of created task */
   
   setup_wifi();
 
@@ -99,20 +139,3 @@ void setup_wifi(){
   Serial.println("IP address: ");
   Serial.println(WiFi.localIP());
 }
-
-
-
-/* this function will be invoked when additionalTask was created */
-void anotherTask( void * parameter ){
-  for(;;){
-    Serial.println("Control LED in anotherTask!");
-    digitalWrite(ledPin, HIGH);
-    delay(1000);
-    digitalWrite(ledPin, LOW);
-    delay(1000);
-
-  }
-
-  vTaskDelete( NULL );
-}
-
